@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(frontg8lib
-  LANGUAGES C CXX
+  LANGUAGES CXX
   VERSION 0.1.0
   )
 
@@ -16,16 +16,13 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set basic compiler flags.
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic -std=c++14")
-set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -pedantic -std=c89")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic -std=c++14 -fPIC -fvisibility=hidden")
 
 # Enable debug symbols for 'Debug' builds
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_C_FLAGS_DEBUG "-g")
 
 # Enable optimization for 'Release' builds
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 # Include support for the Clang sanitizer infrastructure
 include(ClangSanitizers)
@@ -59,6 +56,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/products/Debug/lib
 include_directories(include)
 
 # Include the sources
+add_subdirectory(protobuf)
+add_subdirectory(include)
 add_subdirectory(src)
 
 # Build unittests by default
@@ -69,3 +68,15 @@ if(${${PROJECT_NAME}_TESTS})
   add_definitions(-D${PROJECT_NAME}_TESTING_ENABLED)
   add_subdirectory(test)
 endif()
+
+# Enable packaging
+set(CPACK_PACKAGE_VENDOR "The frong8 Project")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-dst")
+set(CPACK_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES "build/;\\\\.(git.*|ycm_extra_conf.*|color_coded);__pycache__")
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-src")
+include(CPack)

@@ -9,7 +9,7 @@ macro(_pb_check_generated_files RESULT)
   set(${RESULT} YES)
 
   foreach(PB_FILE IN LISTS GENERATED_FILES)
-    if(NOT EXISTS ${PROJECT_SOURCE_DIR}/protobuf/${PB_FILE})
+    if(NOT EXISTS ${PROJECT_SOURCE_DIR}/protobuf/frontg8/${PB_FILE})
       set(${RESULT} NO)
     endif()
   endforeach()
@@ -18,8 +18,9 @@ endmacro()
 _pb_check_generated_files(PB_FILES_ARE_GENERATED)
 if(NOT ${PB_FILES_ARE_GENERATED})
   message(STATUS "Generating protobuf C++ code...")
+  file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/protobuf/frontg8)
   execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/external/frontg8proto/
-    COMMAND ${CONAN_BIN_DIRS_PROTOBUF}/protoc --cpp_out=${PROJECT_SOURCE_DIR}/protobuf base.proto client.proto server.proto
+    COMMAND ${CONAN_BIN_DIRS_PROTOBUF}/protoc --cpp_out=${PROJECT_SOURCE_DIR}/protobuf/frontg8 base.proto client.proto server.proto
     OUTPUT_QUIET
     ERROR_FILE ${CMAKE_CURRENT_BINARY_DIR}/protobuf.log)
   _pb_check_generated_files(PB_FILES_ARE_GENERATED)
@@ -28,12 +29,3 @@ if(NOT ${PB_FILES_ARE_GENERATED})
   endif()
 endif()
 
-if(NOT TARGET pb_protocol)
-  add_library(pb_protocol OBJECT
-    ${PROJECT_SOURCE_DIR}/protobuf/base.pb.cc
-    ${PROJECT_SOURCE_DIR}/protobuf/client.pb.cc
-    ${PROJECT_SOURCE_DIR}/protobuf/server.pb.cc
-    )
-endif()
-
-include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/protobuf)
