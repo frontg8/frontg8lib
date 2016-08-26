@@ -1,0 +1,3 @@
+[submodule "external/frontg8proto"]
+	path = external/frontg8proto
+	url = https://github.com/frontg8/frontg8proto.git

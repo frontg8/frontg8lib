@@ -1,0 +1,9 @@
+[requires]
+CUTE/2.0.0@fmorgner/stable
+Protobuf/2.6.1@memsharded/testing
+
+[generators]
+cmake
+
+[options]
+Protobuf:shared=False

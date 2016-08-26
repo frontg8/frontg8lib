@@ -1,0 +1,8 @@
+# VIM extensions
+.color_coded
+.ycm_extra_conf.py
+__pycache__
+*.pyc
+
+# Generic excludes
+build
