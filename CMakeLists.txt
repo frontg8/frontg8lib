@@ -16,13 +16,16 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set basic compiler flags.
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic -std=c++14 -fPIC -fvisibility=hidden")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic -std=c++14 -fPIC -fvisibility=hidden -fdata-sections -ffunction-sections")
 
 # Enable debug symbols for 'Debug' builds
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 # Enable optimization for 'Release' builds
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+# Set release flags for libraries
+set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-Wl,--gc-sections,--as-needed")
 
 # Include support for the Clang sanitizer infrastructure
 include(ClangSanitizers)
@@ -54,6 +57,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/products/Debug/lib
 
 # Add project includes to header search path
 include_directories(include)
+include_directories(SYSTEM protobuf)
 
 # Include the sources
 add_subdirectory(protobuf)

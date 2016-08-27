@@ -102,6 +102,7 @@ function(cute_test TEST_NAME)
     set(TEST_TARGET_GROUP ${CUTE_TEST_GROUP})
     set(CUTE_TEST_GROUP "${PROJECT_NAME}::${CUTE_TEST_GROUP}")
   endif()
+  string(REGEX REPLACE "::" "_" TEST_TARGET_GROUP ${TEST_TARGET_GROUP})
 
   # Use ``CUTE_RUN_DURING_BUILD`` as fallback, otherwise default to On for CUTE_TEST_RUN_DURIN_BUILD
   if(NOT DEFINED CUTE_TEST_RUN_DURING_BUILD)
@@ -160,7 +161,6 @@ function(cute_test TEST_NAME)
       add_custom_target(cute_${TEST_TARGET_NAME} ALL
         COMMAND ctest -R ${TEST_TARGET_NAME} -Q --output-on-failure
         DEPENDS ${TEST_TARGET_NAME}
-        WORKING_DIRECTORY ${${PROJECT_NAME}_CUTE_REPORTS_DIRECTORY}
         COMMENT "Running CUTE test '${CUTE_TEST_GROUP}::${TEST_NAME}' ..."
         VERBATIM)
     endif()
@@ -172,7 +172,6 @@ function(cute_test TEST_NAME)
         add_custom_target(${GROUP_TARGET}
           COMMAND ctest -R ${TEST_TARGET_GROUP}* -Q ---output-on-failure
           DEPENDS ${TEST_TARGET_NAME}
-          WORKING_DIRECTORY ${${PROJECT_NAME}_CUTE_REPORTS_DIRECTORY}
           COMMENT "Running tests in group '${CUTE_TEST_GROUP}' ..."
           VERBATIM)
       else()
