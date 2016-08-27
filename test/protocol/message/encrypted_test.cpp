@@ -50,7 +50,7 @@ void test_set_content()
 
 void test_stream_output_without_content()
   {
-  auto buffer = std::ostringstream{};
+  std::ostringstream buffer{};
   buffer << fg8::protocol::message::encrypted{};
 
   ASSERT_EQUAL(0, buffer.str().size());
@@ -59,7 +59,7 @@ void test_stream_output_without_content()
 
 void test_stream_output_with_empty_content()
   {
-  auto buffer = std::ostringstream{};
+  std::ostringstream buffer{};
   buffer << fg8::protocol::message::encrypted{""};
 
   auto expected = std::string{{0x0a, 0x00}};
@@ -69,7 +69,7 @@ void test_stream_output_with_empty_content()
 
 void test_stream_output_with_content()
   {
-  auto buffer = std::ostringstream{};
+  std::ostringstream buffer{};
   buffer << fg8::protocol::message::encrypted{"CUTE"};
 
   auto expected = std::string{{0x0a, 0x04, 0x43, 0x55, 0x54, 0x45}};
@@ -79,7 +79,7 @@ void test_stream_output_with_content()
 
 void test_stream_input_from_empty_stream()
   {
-  auto buffer = std::istringstream{};
+  std::istringstream buffer{};
   fg8::protocol::message::encrypted msg{};
 
   buffer >> msg;
@@ -88,7 +88,7 @@ void test_stream_input_from_empty_stream()
 
 void test_stream_input_from_stream_containing_empty_message()
   {
-  auto buffer = std::istringstream{{0x0a, 0x00}};
+  std::istringstream buffer{{0x0a, 0x00}};
   fg8::protocol::message::encrypted msg{};
 
   buffer >> msg;
@@ -98,7 +98,7 @@ void test_stream_input_from_stream_containing_empty_message()
 
 void test_stream_input_from_stream_containing_message()
   {
-  auto buffer = std::istringstream{{0x0a, 0x04, 0x43, 0x55, 0x54, 0x45}};
+  std::istringstream buffer{{0x0a, 0x04, 0x43, 0x55, 0x54, 0x45}};
   fg8::protocol::message::encrypted msg{};
 
   buffer >> msg;
@@ -161,7 +161,7 @@ int main(int argc, char * * argv)
   utilities_suite += CUTE(test_from_data_real_data);
   utilities_suite += CUTE(test_from_data_invalid_data);
 
-  auto xml = cute::xml_file_opener{argc, argv};
+  cute::xml_file_opener xml{argc, argv};
   auto listener = cute::xml_listener<cute::ide_listener<>>{xml.out};
   auto runner = cute::makeRunner(listener, argc, argv);
 

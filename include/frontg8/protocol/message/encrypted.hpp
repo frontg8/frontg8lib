@@ -123,7 +123,7 @@ namespace fg8
         friend std::istream & operator>>(std::istream & stream, encrypted & message);
 
         private:
-          std::unique_ptr<struct encrypted_impl> m_impl{};
+          std::unique_ptr<struct encrypted_impl> m_impl;
         };
 
       }
