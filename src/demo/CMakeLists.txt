@@ -1,0 +1,2 @@
+add_executable(c_api_encrypted_message c_api_encrypted_message.c)
+target_link_libraries(c_api_encrypted_message frontg8 ${CONAN_LIBS})

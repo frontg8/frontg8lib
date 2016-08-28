@@ -1,13 +1,9 @@
-#ifndef LIBFRONTG8_PROTOCOL_MESSAGE_ENCRYPTED
-#define LIBFRONTG8_PROTOCOL_MESSAGE_ENCRYPTED
+#ifndef LIBFRONTG8_IMPL_PROTOCOL_MESSAGE_ENCRYPTED_HPP
+#define LIBFRONTG8_IMPL_PROTOCOL_MESSAGE_ENCRYPTED_HPP
 
 #include <memory>
 #include <iosfwd>
 #include <string>
-
-#ifndef LIBFRONTG8_DLL_EXPORT
-#define LIBFRONTG8_DLL_EXPORT __attribute__ ((visibility ("default")))
-#endif
 
 namespace fg8
   {
@@ -20,73 +16,82 @@ namespace fg8
 
       struct encrypted
         {
-        LIBFRONTG8_DLL_EXPORT
         ~encrypted();
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Construct an empty encrypted message
          */
-        LIBFRONTG8_DLL_EXPORT
         explicit encrypted();
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Construct an encrypted message with the given content
          */
-        LIBFRONTG8_DLL_EXPORT
         explicit encrypted(std::string const & data);
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Construct an encrypted message as a copy of an existing one
          */
-        LIBFRONTG8_DLL_EXPORT
         encrypted(encrypted const & other);
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Create an encrypted message from serialized data
          */
-        LIBFRONTG8_DLL_EXPORT
         static encrypted from_data(std::string const & data);
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Get the content of the encrypted message
          */
-        LIBFRONTG8_DLL_EXPORT
         std::string const & content() const;
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Set the content of the encrypted message
          */
-        LIBFRONTG8_DLL_EXPORT
         void content(std::string const & data);
 
         /**
+         * @internal
+         * @author Felix Morgner
+         * @since 0.1.0
+         *
+         * @brief Clear the conent of the encrypted message
+         */
+        void clear();
+
+        /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
          * @brief Check if the instance is valid
          */
-        LIBFRONTG8_DLL_EXPORT
         explicit operator bool() const;
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
@@ -94,10 +99,10 @@ namespace fg8
          *
          * Two encrypted messages are considered to be the same if they have the same content
          */
-        LIBFRONTG8_DLL_EXPORT
         bool operator==(encrypted const & other) const;
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
@@ -107,10 +112,10 @@ namespace fg8
          * encrypted message. This is useful for storing messages on disk or transferring them to remote systems.
          *
          */
-        LIBFRONTG8_DLL_EXPORT
         friend std::ostream & operator<<(std::ostream & stream, encrypted const & message);
 
         /**
+         * @internal
          * @author Felix Morgner
          * @since 0.1.0
          *
@@ -119,7 +124,6 @@ namespace fg8
          * This function expects the input stream to contain a serialized message. This function is useful to read messages
          * that originate from another system or were serialized previously/
          */
-        LIBFRONTG8_DLL_EXPORT
         friend std::istream & operator>>(std::istream & stream, encrypted & message);
 
         private:

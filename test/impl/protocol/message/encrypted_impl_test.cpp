@@ -1,4 +1,4 @@
-#include "frontg8/protocol/message/encrypted.hpp"
+#include "impl/protocol/message/encrypted.hpp"
 
 #include <cute/cute.h>
 #include <cute/cute_runner.h>
