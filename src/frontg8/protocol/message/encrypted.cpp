@@ -1,98 +1,164 @@
-#include "frontg8/protocol/message/encrypted.hpp"
+#include "impl/error.hpp"
+#include "impl/protocol/message/encrypted.hpp"
 
-#include <frontg8/base.pb.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include "frontg8/protocol/message/encrypted.h"
 
-#include <iostream>
+#include <cstring>
 #include <stdexcept>
 
-using namespace frontg8::protocol;
+namespace
+  {
+  void throw_on_null_instance(fg8_protocol_message_encrypted_const_t instance)
+    {
+    if(!instance)
+      {
+      throw std::runtime_error{"Access on NULL instance of type fg8_protocol_message_encrypted"};
+      }
+    }
+  }
 
-namespace fg8
+extern "C"
   {
 
-  namespace protocol
+  using fg8_encrypted_t = fg8_protocol_message_encrypted_t;
+  using fg8_encrypted_const_t = fg8_protocol_message_encrypted_const_t;
+
+  struct fg8_protocol_message_encrypted
     {
+    fg8_protocol_message_encrypted(char const * const content, size_t const length ) : impl{{content, length}} {}
 
-    namespace message
+    fg8_protocol_message_encrypted() = default;
+
+    fg8_protocol_message_encrypted(fg8::protocol::message::encrypted && message) : impl{std::move(message)} {}
+
+    fg8::protocol::message::encrypted impl;
+    };
+
+  fg8_encrypted_t fg8_protocol_message_encrypted_create(char const * const content, size_t const length,
+                                                        fg8_error_t * const error)
+    {
+    fg8_encrypted_t object{};
+
+    catch_to_error(error, [&]{
+      if(content)
+        {
+        object = new fg8_protocol_message_encrypted{content, length};
+        }
+      else
+        {
+        object = new fg8_protocol_message_encrypted{};
+        }
+      });
+
+    return object;
+    }
+
+  fg8_encrypted_t fg8_protocol_message_encrypted_copy(fg8_encrypted_const_t const other, fg8_error_t * const error)
+    {
+    fg8_encrypted_t object{};
+
+    catch_to_error(error, [&]{
+      throw_on_null_instance(other);
+
+      object = new fg8_protocol_message_encrypted{*other};
+      });
+
+    return object;
+    }
+
+  void fg8_protocol_message_encrypted_destroy(fg8_protocol_message_encrypted_t const instance)
+    {
+    delete instance;
+    }
+
+  fg8_encrypted_t fg8_protocol_message_encrypted_deserialize(char const * const content, size_t length,
+                                                             fg8_error_t * const error)
+    {
+    fg8_encrypted_t object{};
+
+    if(content)
       {
-
-      struct encrypted_impl
-        {
-        encrypted_impl() = default;
-
-        encrypted_impl(std::string const & data)
-          {
-          m_message.set_encrypted_data(data);
-          }
-
-        friend std::ostream & operator<<(std::ostream & stream, encrypted_impl const & message)
-          {
-          message.m_message.SerializeToOstream(&stream);
-          return stream;
-          }
-
-        friend std::istream & operator>>(std::istream & stream, encrypted_impl & message)
-          {
-          message.m_message.Clear();
-          google::protobuf::io::IstreamInputStream zeroCopyStream{&stream};
-          message.m_message.ParseFromZeroCopyStream(&zeroCopyStream);
-          return stream;
-          }
-
-        private:
-          Encrypted m_message{};
-
-          friend encrypted;
-        };
-
-      encrypted::~encrypted() = default;
-
-      encrypted::encrypted() : m_impl{std::make_unique<encrypted_impl>()} { }
-
-      encrypted::encrypted(std::string const & data) : m_impl{std::make_unique<encrypted_impl>(data)} { }
-
-      encrypted::encrypted(encrypted const & other) : m_impl{std::make_unique<encrypted_impl>(*other.m_impl)} { }
-
-      std::string const & encrypted::content() const
-        {
-        return m_impl->m_message.encrypted_data();
-        }
-
-      void encrypted::content(std::string const & data)
-        {
-        return m_impl->m_message.set_encrypted_data(data);
-        }
-
-      encrypted encrypted::from_data(std::string const & data)
-        {
-        auto message = encrypted{};
-        message.m_impl->m_message.ParseFromString(data);
-        return message;
-        }
-
-      encrypted::operator bool() const
-        {
-        return m_impl->m_message.IsInitialized();
-        }
-
-      bool encrypted::operator==(encrypted const & other) const
-        {
-        return content() == other.content();
-        }
-
-      std::ostream & operator<<(std::ostream & stream, encrypted const & message)
-        {
-        return stream << *message.m_impl;
-        }
-
-      std::istream & operator>>(std::istream & stream, encrypted & message)
-        {
-        return stream >> *message.m_impl;
-        }
-
+      catch_to_error(error, [&]{
+        object = new fg8_protocol_message_encrypted{fg8::protocol::message::encrypted::deserialize({content, length})};
+        });
       }
 
+    return object;
+    }
+
+  char * fg8_protocol_message_encrypted_serialize(fg8_encrypted_const_t const instance, size_t * length,
+                                                  fg8_error_t * const error)
+    {
+    char * serialized{};
+
+    catch_to_error(error, [&]{
+      throw_on_null_instance(instance);
+
+      auto data = instance->impl.serialize();
+
+      if(!data.empty())
+        {
+        serialized = static_cast<char *>(std::malloc(data.size()));
+        std::memcpy(serialized, data.c_str(), data.size());
+
+        if(length)
+          {
+          *length = data.size();
+          }
+        }
+      });
+
+    return serialized;
+    }
+
+  char const * fg8_protocol_message_encrypted_get_content(fg8_encrypted_const_t const instance, size_t * const length,
+                                                          fg8_error_t * const error)
+    {
+    char const * content{};
+
+    catch_to_error(error, [&]{
+      throw_on_null_instance(instance);
+
+      if(instance->impl)
+        {
+        auto const & data = instance->impl.content();
+        content = data.c_str();
+
+        if(length)
+          {
+          *length = data.size();
+          }
+        }
+      });
+
+    return content;
+    }
+
+  void fg8_protocol_message_encrypted_set_content(fg8_encrypted_t const instance, char const * const content,
+                                                  size_t const length, fg8_error_t * const error)
+    {
+    catch_to_error(error, [&]{
+      throw_on_null_instance(instance);
+
+      if(!(content && length))
+        {
+        instance->impl.clear();
+        }
+      else
+        {
+        instance->impl.content({content, length});
+        }
+      });
+    }
+
+  bool fg8_protocol_message_encrypted_is_valid(fg8_encrypted_const_t const instance)
+    {
+    return instance && static_cast<bool>(instance->impl);
+    }
+
+  bool fg8_protocol_message_encrypted_compare_equal(fg8_encrypted_const_t const left, fg8_encrypted_const_t const right)
+    {
+    return left && right && left->impl == right->impl;
     }
 
   }

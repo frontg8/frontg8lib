@@ -1,4 +1,4 @@
-#include "frontg8/protocol/message/encrypted.hpp"
+#include "impl/protocol/message/encrypted.hpp"
 
 #include <cute/cute.h>
 #include <cute/cute_runner.h>
@@ -108,7 +108,7 @@ void test_stream_input_from_stream_containing_message()
 
 void test_from_data_empty()
   {
-  auto msg = fg8::protocol::message::encrypted::from_data({});
+  auto msg = fg8::protocol::message::encrypted::deserialize({});
 
   ASSERT(!msg);
   ASSERT_EQUAL("", msg.content());
@@ -116,7 +116,7 @@ void test_from_data_empty()
 
 void test_from_data_real_data()
   {
-  auto msg = fg8::protocol::message::encrypted::from_data({0x0a, 0x04, 0x43, 0x55, 0x54, 0x45});
+  auto msg = fg8::protocol::message::encrypted::deserialize({0x0a, 0x04, 0x43, 0x55, 0x54, 0x45});
 
   ASSERT(msg);
   ASSERT_EQUAL("CUTE", msg.content());
@@ -124,7 +124,7 @@ void test_from_data_real_data()
 
 void test_from_data_invalid_data()
   {
-  auto msg = fg8::protocol::message::encrypted::from_data("INVALID");
+  auto msg = fg8::protocol::message::encrypted::deserialize("INVALID");
 
   ASSERT(!msg);
   ASSERT_EQUAL("", msg.content());
