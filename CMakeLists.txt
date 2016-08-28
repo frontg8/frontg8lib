@@ -24,8 +24,17 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 # Enable optimization for 'Release' builds
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+# Enable coverage information for 'Coverage' builds
+set(CMAKE_CXX_FLAGS_COVERAGE "-O0 -g --coverage")
+
 # Set release flags for libraries
 set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-Wl,--gc-sections,--as-needed")
+
+# Set coverage flags for libraries
+set(CMAKE_SHARED_LINKER_FLAGS_COVERAGE "--coverage")
+
+# Set coverage flags for executables
+set(CMAKE_EXE_LINKER_FLAGS_COVERAGE "--coverage")
 
 # Include support for the Clang sanitizer infrastructure
 include(ClangSanitizers)
@@ -71,6 +80,11 @@ if(${${PROJECT_NAME}_TESTS})
   include(CUTE)
   add_definitions(-D${PROJECT_NAME}_TESTING_ENABLED)
   add_subdirectory(test)
+endif()
+
+if(${CMAKE_BUILD_TYPE} STREQUAL "Coverage")
+  include(CodeCoverage)
+  setup_target_for_coverage(${PROJECT_NAME}_coverage "${CMAKE_COMMAND} --build . -- -j$(nproc) && make test" coverage)
 endif()
 
 # Enable packaging
