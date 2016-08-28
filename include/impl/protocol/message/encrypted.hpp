@@ -1,6 +1,8 @@
 #ifndef LIBFRONTG8_IMPL_PROTOCOL_MESSAGE_ENCRYPTED_HPP
 #define LIBFRONTG8_IMPL_PROTOCOL_MESSAGE_ENCRYPTED_HPP
 
+#include <frontg8/base.pb.h>
+
 #include <memory>
 #include <iosfwd>
 #include <string>
@@ -16,8 +18,6 @@ namespace fg8
 
       struct encrypted
         {
-        ~encrypted();
-
         /**
          * @internal
          * @author Felix Morgner
@@ -25,7 +25,7 @@ namespace fg8
          *
          * @brief Construct an empty encrypted message
          */
-        explicit encrypted();
+        encrypted() = default;
 
         /**
          * @internal
@@ -34,16 +34,7 @@ namespace fg8
          *
          * @brief Construct an encrypted message with the given content
          */
-        explicit encrypted(std::string const & data);
-
-        /**
-         * @internal
-         * @author Felix Morgner
-         * @since 0.1.0
-         *
-         * @brief Construct an encrypted message as a copy of an existing one
-         */
-        encrypted(encrypted const & other);
+        explicit encrypted(std::string const & content);
 
         /**
          * @internal
@@ -127,7 +118,7 @@ namespace fg8
         friend std::istream & operator>>(std::istream & stream, encrypted & message);
 
         private:
-          std::unique_ptr<struct encrypted_impl> m_impl;
+          frontg8::protocol::Encrypted m_message{};
         };
 
       }
