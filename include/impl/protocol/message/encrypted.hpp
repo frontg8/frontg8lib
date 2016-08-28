@@ -41,9 +41,18 @@ namespace fg8
          * @author Felix Morgner
          * @since 0.1.0
          *
+         * @brief Serialize the encrypted message into a string
+         */
+        std::string serialize() const;
+
+        /**
+         * @internal
+         * @author Felix Morgner
+         * @since 0.1.0
+         *
          * @brief Create an encrypted message from serialized data
          */
-        static encrypted from_data(std::string const & data);
+        static encrypted deserialize(std::string const & data);
 
         /**
          * @internal

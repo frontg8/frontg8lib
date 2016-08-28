@@ -21,7 +21,12 @@ namespace fg8
         m_message.set_encrypted_data(content);
         }
 
-      encrypted encrypted::from_data(std::string const & data)
+      std::string encrypted::serialize() const
+        {
+        return m_message.SerializeAsString();
+        }
+
+      encrypted encrypted::deserialize(std::string const & data)
         {
         auto message = encrypted{};
         message.m_message.ParseFromString(data);

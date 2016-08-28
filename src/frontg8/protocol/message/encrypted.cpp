@@ -5,7 +5,6 @@
 
 #include <cstring>
 #include <stdexcept>
-#include <sstream>
 
 namespace
   {
@@ -80,7 +79,7 @@ extern "C"
     if(content)
       {
       catch_to_error(error, [&]{
-        object = new fg8_protocol_message_encrypted{fg8::protocol::message::encrypted::from_data({content, length})};
+        object = new fg8_protocol_message_encrypted{fg8::protocol::message::encrypted::deserialize({content, length})};
         });
       }
 
@@ -95,18 +94,16 @@ extern "C"
     catch_to_error(error, [&]{
       throw_on_null_instance(instance);
 
-      std::ostringstream data{};
-      data << instance->impl;
-      auto const & string = data.str();
+      auto data = instance->impl.serialize();
 
-      if(!string.empty())
+      if(!data.empty())
         {
-        serialized = static_cast<char *>(std::malloc(string.size()));
-        std::memcpy(serialized, string.c_str(), string.size());
+        serialized = static_cast<char *>(std::malloc(data.size()));
+        std::memcpy(serialized, data.c_str(), data.size());
 
         if(length)
           {
-          *length = string.size();
+          *length = data.size();
           }
         }
       });
