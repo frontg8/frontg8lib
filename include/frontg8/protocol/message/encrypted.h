@@ -7,6 +7,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ * @file
+ */
+
 #ifdef __cplusplus
 extern "C"
   {
@@ -71,7 +75,7 @@ extern "C"
    *
    * @brief Create an encrypted message from serialized data
    *
-   * @param content A string pointing to serialized data. Might be NULL.
+   * @param data A string pointing to serialized data. Might be NULL.
    * @param length The length of the data pointed to by @p data
    * @param error A pointer to an error object. Might be NULL.
    *

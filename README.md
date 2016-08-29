@@ -1,7 +1,8 @@
 The core frontg8 library
 ========================
 
-[![Build Status](https://travis-ci.org/frontg8/frontg8lib.svg?branch=master)](https://travis-ci.org/frontg8/frontg8lib) [![Coverage Status](https://coveralls.io/repos/github/frontg8/frontg8lib/badge.svg?branch=master)](https://coveralls.io/github/frontg8/frontg8lib?branch=master)
+[![Build Status](https://travis-ci.org/frontg8/frontg8lib.svg?branch=master)](https://travis-ci.org/frontg8/frontg8lib) [![Coverage Status](https://coveralls.io/repos/github/frontg8/frontg8lib/badge.svg?branch=master)](https://coveralls.io/github/frontg8/frontg8lib?branch=master)[![Documentation Status](https://readthedocs.org/projects/libfrontg8/badge/?version=latest)](http://libfrontg8.readthedocs.io/en/latest/?badge=latest)
+
 
 ***NOTE: This library is under heavy development***
 
