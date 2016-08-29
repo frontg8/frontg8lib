@@ -237,6 +237,20 @@ struct content_tests : encrypted_message_tests
     ASSERT_EQUAL(length, data.size());
     }
 
+  void test_set_content_to_zero_length_string()
+    {
+    m_message = fg8_protocol_message_encrypted_create("FG8", 3, nullptr);
+    fg8_protocol_message_encrypted_set_content(m_message, "", 0, &m_error);
+    size_t length = 3;
+    auto content = fg8_protocol_message_encrypted_get_content(m_message, &length, nullptr);
+
+    ASSERT(!m_error);
+    ASSERT(fg8_protocol_message_encrypted_is_valid(m_message));
+    ASSERT(content);
+    ASSERT_EQUAL("", content);
+    ASSERT_EQUAL(0, length);
+    }
+
   void test_set_content_nullptr()
     {
     fg8_protocol_message_encrypted_set_content(nullptr, "CUTE", 4, &m_error);
@@ -257,6 +271,7 @@ struct content_tests : encrypted_message_tests
       CUTE_SMEMFUN(content_tests, test_set_content_default_constructed),
       CUTE_SMEMFUN(content_tests, test_set_content_constructed_with_string),
       CUTE_SMEMFUN(content_tests, test_set_content_including_null_bytes_constructed_with_string),
+      CUTE_SMEMFUN(content_tests, test_set_content_to_zero_length_string),
       CUTE_SMEMFUN(content_tests, test_set_content_nullptr)
       }};
     }

@@ -130,8 +130,7 @@ extern "C"
    *
    * @param instance An encrypted message. Must not be NULL.
    * @param content The new content of the message. Passing in NULL will clear the message content.
-   * @param length The length of the data pointed to by @p content. Passing in 0 will clear the message content regardless of
-   * the value of @p content.
+   * @param length The length of the data pointed to by @p content.
    * @param error A pointer to an error object. Might be NULL.
    *
    * @note If an error occurs, @p instance will remain unchanged and @p error will be set accordingly if a non NULL value was

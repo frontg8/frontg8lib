@@ -140,7 +140,7 @@ extern "C"
     catch_to_error(error, [&]{
       throw_on_null_instance(instance);
 
-      if(!(content && length))
+      if(!content)
         {
         instance->impl.clear();
         }

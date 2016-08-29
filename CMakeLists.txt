@@ -90,6 +90,7 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Coverage")
     DEPENDENCIES ${CUTE_TARGETS}
     SOURCE_DIRECTORIES ${PROJECT_SOURCE_DIR}/src/frontg8/*
     ${PROJECT_SOURCE_DIR}/src/impl/*
+    ${PROJECT_SOURCE_DIR}/include/frontg8/**.hpp
     QUIET
     )
 endif()
