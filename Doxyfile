@@ -1,0 +1,37 @@
+DOXYFILE_ENCODING      = UTF-8
+QUIET                  = YES
+PROJECT_NAME           = frontg8lib
+PROJECT_NUMBER         = 0.1.0
+PROJECT_BRIEF          = "The frontg8 core library"
+PROJECT_LOGO           =
+OUTPUT_DIRECTORY       = build/
+OUTPUT_LANGUAGE        = English
+ABBREVIATE_BRIEF       = "The $name class" \
+                         "The $name widget" \
+                         "The $name file" \
+                         is \
+                         provides \
+                         specifies \
+                         contains \
+                         represents \
+                         a \
+                         an \
+                         the
+FULL_PATH_NAMES        = NO
+TAB_SIZE               = 2
+OPTIMIZE_OUTPUT_FOR_C  = NO
+IDL_PROPERTY_SUPPORT   = NO
+INPUT                  = include/frontg8
+FILE_PATTERNS          = *.h
+RECURSIVE              = YES
+IMAGE_PATH             =
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+XML_PROGRAMLISTING     = YES
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+PREDEFINED             = FG8_DLL_EXPORT=
+ALIASES                += "rst=@verbatim embed:rst:leading-asterisk"
+ALIASES                += "endrst=@endverbatim"
