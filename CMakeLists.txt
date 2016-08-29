@@ -84,7 +84,14 @@ endif()
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Coverage")
   include(CodeCoverage)
-  setup_target_for_coverage(${PROJECT_NAME}_coverage "${CMAKE_COMMAND} --build . -- -j$(nproc) && make test" coverage)
+  add_coverage(${PROJECT_NAME}_coverage
+    COMMAND ${CMAKE_COMMAND} --build . --target test
+    OUTPUT coverage
+    DEPENDENCIES ${CUTE_TARGETS}
+    SOURCE_DIRECTORIES ${PROJECT_SOURCE_DIR}/src/frontg8/*
+    ${PROJECT_SOURCE_DIR}/src/impl/*
+    QUIET
+    )
 endif()
 
 # Enable packaging
