@@ -1,12 +1,21 @@
-The core frontg8 library
+The frontg8 core library
 ========================
 
-[![Build Status](https://travis-ci.org/frontg8/frontg8lib.svg?branch=master)](https://travis-ci.org/frontg8/frontg8lib) [![Coverage Status](https://coveralls.io/repos/github/frontg8/frontg8lib/badge.svg?branch=master)](https://coveralls.io/github/frontg8/frontg8lib?branch=master)[![Documentation Status](https://readthedocs.org/projects/libfrontg8/badge/?version=latest)](http://libfrontg8.readthedocs.io/en/latest/?badge=latest)
-
+[![Build Status](https://travis-ci.org/frontg8/frontg8lib.svg?branch=master)](https://travis-ci.org/frontg8/frontg8lib) [![Coverage Status](https://coveralls.io/repos/github/frontg8/frontg8lib/badge.svg?branch=master)](https://coveralls.io/github/frontg8/frontg8lib?branch=master) [![Documentation Status](https://readthedocs.org/projects/libfrontg8/badge/?version=latest)](http://libfrontg8.readthedocs.io/en/latest/?badge=latest)
 
 ***NOTE: This library is under heavy development***
 
-This repository contains the core components of frontg8
+Introduction
+------------
+
+libfrontg8 (a.k.a frontg8lib) is a new foundation for the
+[frontg8](https://www.frontg8.ch) project. It contains all components required
+to build client and server applications and exposes a generic C API. This API
+makes it easy to implement frontends for other languages like C++, Python, Rust
+and Java.
+
+The library provides all required functionality like message- and error
+handling, cryptographic operations and network connectivity.
 
 Build requirements
 ------------------
@@ -31,11 +40,3 @@ $ conan install .. --build=missing
 $ cmake ..
 $ cmake --build . -- -j$(nproc)
 ```
-
-The API
-=======
-
-The frontg8 core library is built as a pure C API. This makes it easy to create
-bindings for a wide variety of other languages. For information on the current
-API, please browse the header files in `include/frontg8`. For an example on the
-usage, check out the API unit tests and the demos in `src/demo`.
