@@ -150,6 +150,22 @@ void test_serialize_default_constructed()
   ASSERT_EQUAL("", data);
   }
 
+void test_serialize_constructed_with_empty_string()
+  {
+  auto const msg = fg8::protocol::message::encrypted{""};
+  auto const data = msg.serialize();
+
+  ASSERT_EQUAL((std::string{{0x0a, 0x00}}), data);
+  }
+
+void test_serialize_constructed_with_null_string()
+  {
+  auto const msg = fg8::protocol::message::encrypted{{0x00}};
+  auto const data = msg.serialize();
+
+  ASSERT_EQUAL((std::string{{0x0a, 0x01, 0x00}}), data);
+  }
+
 void test_serialize_constructed_with_string()
   {
   auto const input = std::string{{0x34, 0x00, 0x01, 0x7F, 0x00, 0x00}};
@@ -203,6 +219,8 @@ int main(int argc, char * * argv)
   auto serialization_suite = cute::suite{};
 
   serialization_suite += CUTE(test_serialize_default_constructed);
+  serialization_suite += CUTE(test_serialize_constructed_with_empty_string);
+  serialization_suite += CUTE(test_serialize_constructed_with_null_string);
   serialization_suite += CUTE(test_serialize_constructed_with_string);
   serialization_suite += CUTE(test_deserialize_empty_string);
   serialization_suite += CUTE(test_deserialize_serialized_string);

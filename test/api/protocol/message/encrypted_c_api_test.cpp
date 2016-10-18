@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <string.h>
 
 #define EXPECTED(error) \
 ASSERT(error);\
@@ -339,11 +340,28 @@ struct utilities_tests : encrypted_message_tests
 
   void test_serialize_empty_message()
     {
-    m_message = fg8_protocol_message_encrypted_create("", 0, nullptr);
+    auto str = "";
+    m_message = fg8_protocol_message_encrypted_create(str, strlen(str), nullptr);
     size_t length = 0;
     auto const serialized = fg8_protocol_message_encrypted_serialize(m_message, &length, &m_error);
 
     auto expected = std::array<char, 2>{{0x0a, 0x00}};
+
+    ASSERT(serialized);
+    ASSERT(!m_error);
+    ASSERT(std::equal(expected.cbegin(), expected.cend(), serialized));
+    ASSERT_EQUAL(expected.size(), length);
+    std::free(serialized);
+    }
+
+  void test_serialize_null_message()
+    {
+    char str[] = {0x00};
+    m_message = fg8_protocol_message_encrypted_create(str, sizeof(str), nullptr);
+    size_t length = 0;
+    auto const serialized = fg8_protocol_message_encrypted_serialize(m_message, &length, &m_error);
+
+    auto expected = std::array<char, 3>{{0x0a, 0x01, 0x00}};
 
     ASSERT(serialized);
     ASSERT(!m_error);
@@ -424,6 +442,7 @@ struct utilities_tests : encrypted_message_tests
       CUTE_SMEMFUN(utilities_tests, test_deserialize_with_data_containing_null_bytes),
       CUTE_SMEMFUN(utilities_tests, test_serialize_default_constructed),
       CUTE_SMEMFUN(utilities_tests, test_serialize_empty_message),
+      CUTE_SMEMFUN(utilities_tests, test_serialize_null_message),
       CUTE_SMEMFUN(utilities_tests, test_serialize_with_string),
       CUTE_SMEMFUN(utilities_tests, test_serialize_with_data_containing_null_bytes),
       CUTE_SMEMFUN(utilities_tests, test_compare_equal_on_equal_messages),
