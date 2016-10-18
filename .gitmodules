@@ -1,3 +1,6 @@
 [submodule "external/frontg8proto"]
 	path = external/frontg8proto
 	url = https://github.com/frontg8/frontg8proto.git
+[submodule "Swiftg8"]
+	path = ffi/swift
+	url = https://github.com/frontg8/Swiftg8.git
